@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" >
+    <title>Document</title>
+</head>
+<body>
+
+  
+ <section class="container">
+    <form id="myform">
+      <h1>Add User</h1>
+      <div class="msg"></div>
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+      </div>
+      <input id="btn" type="submit" value="Submit">
+    </form>
+
+    <br><br>
+
+    <button id="checkevent"> checkevent</button>
+  </section>
+
+    <script>
+        let myform = document.getElementById('myform')
+        let name = document.getElementById('name')
+        let email = document.getElementById('email')
+        let btn = document.getElementById('btn');
+        let msg = document.querySelector('.msg');
+
+ 
+  
+        myform.addEventListener('submit', onSubmit);
+
+        function onSubmit(e){
+            e.preventDefault();
+           
+           if(name.value === '' || email.value === ''){
+            msg.classList.add('error');
+            msg.innerHTML = 'please enter all fields'
+
+            setTimeout(()=>msg.remove(),3000);
+           }else{
+            console.log(name.value)
+            console.log(email.value)
+            localStorage.setItem('username' , name.value);
+            localStorage.setItem('email' , email.value);
+
+           }
+
+           
+        }
+        
+       
+
+
+        let checkevent = document.getElementById('checkevent')
+        
+        checkevent.addEventListener('mouseover',(e) =>{
+            console.log('mouseover');
+        })
+
+        checkevent.addEventListener('mouseout',(e) =>{
+            console.log('mouseout');
+        })
+
+        checkevent.addEventListener('click',(e) =>{
+            console.log('click');
+        })
+
+    </script>
+</body>
+</html>
