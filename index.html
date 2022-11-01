@@ -35,6 +35,10 @@
     <button id="checkevent"> checkevent</button>
   </section>
 
+  <ul id="listOfUsers">
+
+  </ul>
+
     <script>
         let myform = document.getElementById('myform')
         let name = document.getElementById('name')
@@ -51,6 +55,7 @@
         function onSubmit(e){
             e.preventDefault();
            
+            //Checking input is empty or not
            if(name.value === '' || email.value === ''){
             msg.classList.add('error');
             msg.innerHTML = 'please enter all fields'
@@ -61,30 +66,52 @@
             console.log(name.value)
             console.log(email.value)
 
-            //Creating object for name & email
-            let myobj ={
-              name : name.value,
-              email : email.value 
-            }
-            console.log(myobj)
-
-            //Converting myobj Object to string
-            let myobj_serialized = JSON.stringify(myobj);
+            //setting data in local storage direct 
+             // localStorage.setItem('email' , email.value);
+             // localStorage.setItem('email' , email.value);
+            
+             // PART 2 ----
+            //creating object 
+            //  let myobj = {
+            //   name : name.value,
+            //   email: email.value
+            //  }
+             //Converting myobj Object to string
+              //  let myobj_serialized = JSON.stringify(myobj);
 
           
-            //Setting local storage throug object 
-             localStorage.setItem('myobj' , myobj_serialized);
+             //Setting local storage throug object 
+              //  localStorage.setItem("user" , myobj_serialized);
 
-             //setting data in local storage direct 
-            // localStorage.setItem('email' , email.value);
-            // localStorage.setItem('email' , email.value);
+             
 
             //Converting string to object again
-            let myobj_deserialized = JSON.parse(localStorage.getItem("myobj"));
-             console.log(myobj_deserialized)
+            // let myobj_deserialized = JSON.parse(localStorage.getItem("user"));
+            // console.log(myobj_deserialized + "deserialized")
+
+            //PART - 3
+            //creating object it will not delete automatically
+            let obj = {
+              name:name.value,
+              email:email.value
+            }
+               localStorage.setItem(obj.email, JSON.stringify(obj))  
+
+              showNewUserOnScreen(obj) //Calling function
+              
 
            }
-           
+
+         
+        }
+
+        
+        // Creating the function for showing userDetail in web page
+        function showNewUserOnScreen(user){
+          const parentNode = document.getElementById('listOfUsers');
+          const childHTML = `<li> ${user.name} - ${user.email} </li>`
+
+          parentNode.innerHTML = parentNode.innerHTML + childHTML;
         }
         
        
