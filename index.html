@@ -12,17 +12,22 @@
   
  <section class="container">
     <form id="myform">
+
       <h1>Add User</h1>
       <div class="msg"></div>
+
       <div>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name">
       </div>
+
       <div>
         <label for="email">Email:</label>
         <input type="email" name="email" id="email">
       </div>
+
       <input id="btn" type="submit" value="Submit">
+
     </form>
 
     <br><br>
@@ -41,6 +46,8 @@
   
         myform.addEventListener('submit', onSubmit);
 
+       
+
         function onSubmit(e){
             e.preventDefault();
            
@@ -50,18 +57,38 @@
 
             setTimeout(()=>msg.remove(),3000);
            }else{
+            // Consoling name and email value
             console.log(name.value)
             console.log(email.value)
-            localStorage.setItem('username' , name.value);
-            localStorage.setItem('email' , email.value);
+
+            //Creating object for name & email
+            let myobj ={
+              name : name.value,
+              email : email.value 
+            }
+            console.log(myobj)
+
+            //Converting myobj Object to string
+            let myobj_serialized = JSON.stringify(myobj);
+
+          
+            //Setting local storage throug object 
+             localStorage.setItem('myobj' , myobj_serialized);
+
+             //setting data in local storage direct 
+            // localStorage.setItem('email' , email.value);
+            // localStorage.setItem('email' , email.value);
+
+            //Converting string to object again
+            let myobj_deserialized = JSON.parse(localStorage.getItem("myobj"));
+             console.log(myobj_deserialized)
 
            }
-
            
         }
         
        
-
+//  FOR CHECK EVENT BUTTON
 
         let checkevent = document.getElementById('checkevent')
         
