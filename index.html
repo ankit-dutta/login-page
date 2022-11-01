@@ -10,23 +10,23 @@
 <body>
 
   
- <section class="container">
-    <form id="myform">
+ <section class="container" >
+    <form id="myform" onsubmit="saveInLocalStorage(event)">
 
       <h1>Add User</h1>
       <div class="msg"></div>
 
-      <div>
+      <!-- <div> -->
         <label for="name">Name:</label>
         <input type="text" name="name" id="name">
-      </div>
+      <!-- </div> -->
 
-      <div>
+      <!-- <div> -->
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email">
-      </div>
+        <input type="email" name="emailId" id="email">
+      <!-- </div> -->
 
-      <input id="btn" type="submit" value="Submit">
+      <button id = "btn">Submit</button>
 
     </form>
 
@@ -40,31 +40,31 @@
   </ul>
 
     <script>
-        let myform = document.getElementById('myform')
-        let name = document.getElementById('name')
-        let email = document.getElementById('email')
-        let btn = document.getElementById('btn');
+        // let myform = document.getElementById('myform')
+     
+        // let btn = document.getElementById('btn');
         let msg = document.querySelector('.msg');
 
- 
-  
-        myform.addEventListener('submit', onSubmit);
+
+        // myform.addEventListener('submit', saveInLocalStorage);
 
        
 
-        function onSubmit(e){
-            e.preventDefault();
+        function saveInLocalStorage(event){
+            event.preventDefault();
            
-            //Checking input is empty or not
-           if(name.value === '' || email.value === ''){
+            const name = event.target.name.value;
+            const email = event.target.emailId.value;
+          
+            if(name === '' || email === ''){
             msg.classList.add('error');
             msg.innerHTML = 'please enter all fields'
 
             setTimeout(()=>msg.remove(),3000);
            }else{
             // Consoling name and email value
-            console.log(name.value)
-            console.log(email.value)
+            // console.log(name)
+            // console.log(email)
 
             //setting data in local storage direct 
              // localStorage.setItem('email' , email.value);
@@ -92,8 +92,8 @@
             //PART - 3
             //creating object it will not delete automatically
             let obj = {
-              name:name.value,
-              email:email.value
+              name,
+              email
             }
                localStorage.setItem(obj.email, JSON.stringify(obj))  
 
@@ -101,17 +101,74 @@
               
 
            }
+          }
 
          
-        }
+        
+
+        // window.addEventListener("DOMContentLoaded", () => {
+        //         const localStorageObj = localStorage;
+        //         const localstoragekeys  = Object.keys(localStorageObj)
+
+        //         for(var i =0; i< localstoragekeys.length; i++){
+        //             const key = localstoragekeys[i]
+        //             const userDetailsString = localStorageObj[key];
+        //             const userDetailsObj = JSON.parse(userDetailsString);
+        //             showNewUserOnScreen(userDetailsObj)
+        //         }
+        //     })
 
         
+
+        //PART 4 ---- 
         // Creating the function for showing userDetail in web page
         function showNewUserOnScreen(user){
+                document.getElementById('email').value = '';
+                document.getElementById('name').value = '';
+                // console.log(localStorage.getItem(user.emailId))
+                if(localStorage.getItem(user.email) !== null){
+                  removedetail(user.email)
+                }
+
           const parentNode = document.getElementById('listOfUsers');
-          const childHTML = `<li> ${user.name} - ${user.email} </li>`
+
+          const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
+                                        <button onclick=removeUserFromLocalStorage('${user.email}')> Delete User </button>
+                                        <button onclick=edituser('${user.email}','${user.name}')>Edit User </button>
+                                     </li>`
 
           parentNode.innerHTML = parentNode.innerHTML + childHTML;
+           
+
+        }
+
+        //Edit User
+        function edituser(emailId, name){
+
+            document.getElementById('email').value = emailId;
+            document.getElementById('name').value = name;
+
+            removeUserFromLocalStorage(emailId)
+          }
+
+          //Delete user fromlocal storage
+        function removeUserFromLocalStorage(emailId){
+          console.log(emailId);
+          localStorage.removeItem(emailId);
+
+          removedetail(emailId);
+        }
+
+        //remove from the web page
+        function removedetail(emailId){
+           let parentNode = document.getElementById('listOfUsers');
+           let childNode = document.getElementById(emailId);
+
+           if(childNode){
+            parentNode.removeChild(childNode);
+           }
+           
+           
         }
         
        
